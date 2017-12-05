@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by LaunchCode
@@ -37,7 +38,7 @@ public class JobData {
 
         for (HashMap<String, String> row : allJobs) {
             String aValue = row.get(field);
-
+//            aValue = aValue.toLowerCase();
             if (!values.contains(aValue)) {
                 values.add(aValue);
             }
@@ -72,12 +73,9 @@ public class JobData {
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
-        for (HashMap<String, String> row : allJobs) {
-
-            String aValue = row.get(column);
-
-            if (aValue.contains(value)) {
-                jobs.add(row);
+        for (HashMap<String, String> job : allJobs) {
+            if (job.get(column).toLowerCase().contains(value.toLowerCase())) {
+                jobs.add(job);
             }
         }
 
@@ -123,6 +121,44 @@ public class JobData {
             System.out.println("Failed to load job data");
             e.printStackTrace();
         }
+
+
     }
+
+//    public static boolean meetsSearch(HashMap<String, String> job, String searchField, String searchTerm) {
+//        String value = job.get(searchField);
+//        return value.contains(searchTerm);
+//    }
+
+    public static  ArrayList<HashMap<String, String>> findByValue(String value) {
+        loadData();
+        ArrayList<HashMap<String, String>> newList = new ArrayList<>();
+
+        for (HashMap<String, String> job: allJobs) {
+
+            for (String fieldValue:job.values()){
+                if(fieldValue.toLowerCase().contains(value.toLowerCase())){
+                    newList.add(job);
+                    break;
+                }
+
+            }
+        }
+        return newList;
+
+//            String aValue = job.get(searchField);
+//            aValue = aValue.toLowerCase();
+//
+//            if (aValue.contains(value.toLowerCase())) {
+//                newList.add((job));
+//            }
+    }
+
+
+        // create new list of jobs
+        // iterate through the list input list
+
+        // for each item, test search values with meetsSearch
+
 
 }
